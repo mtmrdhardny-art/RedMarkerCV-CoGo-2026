@@ -1,0 +1,38 @@
+name: Build APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: تحميل المشروع
+        uses: actions/checkout@v4
+
+      - name: فك ضغط المشروع
+        run: unzip -q RedMarkerCV-CoGo-2026.zip
+
+      - name: إعداد Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: إعداد Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.13'
+
+      - name: بناء APK
+        working-directory: RedMarkerCV-CoGo-2026
+        run: gradle assembleRelease
+
+      - name: رفع APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: RedMarkerCV-release
+          path: RedMarkerCV-CoGo-2026/app/build/outputs/apk/release/*.apk

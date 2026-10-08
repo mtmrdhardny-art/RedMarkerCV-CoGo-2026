@@ -29,10 +29,10 @@ jobs:
 
       - name: بناء APK
         working-directory: RedMarkerCV-CoGo-2026
-        run: gradle assembleRelease
+        run: gradle assembleDebug
 
       - name: رفع APK
         uses: actions/upload-artifact@v4
         with:
           name: RedMarkerCV-release
-          path: RedMarkerCV-CoGo-2026/app/build/outputs/apk/release/*.apk
+          path: RedMarkerCV-CoGo-2026/app/build/outputs/apk/debug/*.apk
